@@ -3,7 +3,7 @@ Automated server setup using Vesta and Ansible Local:
  - VestaCP install
  - PHP 7.0 FPM
  - MariaDB
- - MemCacheD
+ - Memcached
  - NginX with GeoIP, ngx_cache_purge
 
 To build the test VM:
