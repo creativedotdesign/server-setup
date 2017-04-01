@@ -6,6 +6,11 @@ Automated server setup using Vesta and Ansible Local:
  - MemCacheD
  - NginX with GeoIP, ngx_cache_purge
 
+To build the test VM:
+- Install Vagrant
+- Ensure provisioner for your hypervisor is available, eg VirtualBox.
+- cd to repo dir
+- Run `vagrant up`
 
 To-do:
  - Secure/private options files with Git exclusions
