@@ -14,7 +14,6 @@ redundant_packages:
 # Required packages for this role
 required_packages:
   - dpkg-dev
-  - libpcrecpp0
   - libgd2-xpm-dev
   - libgeoip-dev
   - libgeoip1
