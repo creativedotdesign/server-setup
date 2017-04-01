@@ -1,0 +1,30 @@
+# Add the keys for repositories
+- name: Add repository keys
+  apt_key:
+    url: "{{ item }}"
+    state: present
+  with_items: "{{ repository_key_uris }}"
+
+# Add the required repositories.
+- name: Add repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    update_cache: yes
+  with_items: "{{ repositories }}"
+
+# Remove unnecessary packages.
+- name: Remove unnecessary packages
+  apt:
+    name: "{{ item }}" 
+    state: absent
+    autoremove: yes
+  with_items: "{{ redundant_packages }}"
+
+# Install all the packages we need. Defined in variables file under required_packages 
+- name: Install required packages
+  apt:
+    name: "{{ item }}" 
+    state: present
+    update_cache: yes
+  with_items: "{{ required_packages }}"

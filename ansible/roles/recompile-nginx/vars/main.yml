@@ -1,0 +1,2 @@
+  # Nginx version to use
+  nginx_version: "1.11.10"

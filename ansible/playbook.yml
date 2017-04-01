@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+  # become root
+  become: yes
+
+  # playbook variables 
+  vars:
+    email: "user@example.com"
+    password: secret
+  
+  # Install the various roles in order
+  roles:
+    - general
+    - vesta-install
+    - replace-php
+    - recompile-nginx

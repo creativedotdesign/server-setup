@@ -1,0 +1,19 @@
+# Download the vesta shell script from Vesta
+- name: Download Vesta CP installer
+  get_url: url=http://vestacp.com/pub/vst-install.sh dest=/tmp/vst-install.sh mode=0400
+
+# Run the Vesta installer using preferred options
+- name: Run the Vesta installer
+  shell: >
+    yes | bash /tmp/vst-install.sh --nginx yes --apache no --phpfpm yes 
+    --vsftpd no --proftpd no --exim no --dovecot no --spamassassin no
+    --clamav no --named no --iptables yes --fail2ban yes --mysql yes
+    --postgresql no --remi no --quota no
+    --hostname {{ inventory_hostname }}
+    --email {{ email }}
+    --password {{ password }}
+    --force
+    && touch /root/.vestainstalled
+  args:
+    creates: /root/.vestainstalled
+

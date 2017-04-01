@@ -1,0 +1,5 @@
+# General redundant packages for removal prior to adding any other roles
+redundant_packages:
+  - "exim4*"
+  - "bind9*"
+  - "postfix*"

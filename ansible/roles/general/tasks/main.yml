@@ -1,0 +1,7 @@
+# Remove unnecessary packages. Defined in variables file under redundant_packages 
+- name: Remove unnecessary packages
+  apt:
+    name: "{{ item }}" 
+    state: absent
+    autoremove: yes
+  with_items: "{{ redundant_packages }}"
