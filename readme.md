@@ -12,6 +12,10 @@ To build the test VM:
 - cd to repo dir
 - Run `vagrant up`
 
+Updating the VM:
+- If you have made changes to the vagrant config, run `vagrant reload`
+- If you have made changes to the ansible runbook, run `vagrant rsync && vagrant provision` to update.
+
 To-do:
 - Secure/private options files with Git exclusions
 - Finish replacing PHP5 with PHP7 (incl. Vesta changes)
