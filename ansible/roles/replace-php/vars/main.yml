@@ -62,3 +62,12 @@ required_packages:
   - php7.0-opcache
   - php7.0-bz2
   - python-software-properties
+
+# Vesta directories to rename
+vesta_rename_dirs:
+  - { src: '/usr/local/vesta/data/templates/web/php5-fpm', dst: '/usr/local/vesta/data/templates/web/php7.0-fpm' }
+  - { src: '/usr/local/vesta/data/templates/web/nginx/php5-fpm', dst: '/usr/local/vesta/data/templates/web/nginx/php7.0-fpm' }
+  - { src: '/usr/local/vesta/web/edit/server/php5-fpm', dst: '/usr/local/vesta/web/edit/server/php7.0-fpm'}
+
+vesta_conf_file: '/usr/local/vesta/conf/vesta.conf'
+

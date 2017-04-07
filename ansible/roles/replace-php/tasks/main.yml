@@ -28,3 +28,25 @@
     state: present
     update_cache: yes
   with_items: "{{ required_packages }}"
+
+# Rename Vesta directories
+- name: Rename Vesta directories
+  command: mv "{{ item.src }}" "{{ item.dst }}"
+  args:
+    creates: "{{ item.dst }}"
+  with_items: "{{ vesta_rename_dirs }}"
+
+# Set WEB_BACKEND variable in Vesta configuration
+- name: Set Vesta backend configuration
+  ini_file:
+    dest: /usr/local/vesta/conf/vesta.conf
+    section: ''
+    option: 'WEB_BACKEND'
+    value: "'php7.0-fpm'"
+
+# Set to listen on PHP7.0
+- name: Set to listen on PHP7.0
+  replace:
+    dest: /usr/local/vesta/data/templates/web/php7.0-fpm/socket.tpl
+    regexp: '(\s+)php5-(\s+.*)?$'
+    replace: '\1php7.0\2'
