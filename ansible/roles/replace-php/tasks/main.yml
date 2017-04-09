@@ -21,6 +21,12 @@
     autoremove: yes
   with_items: "{{ redundant_packages }}"
 
+# Remove /etc/php5
+- name: Remove /etc/php5
+  file:
+    dest: /etc/php5
+    state: absent
+
 # Install all the packages we need. Defined in variables file under required_packages 
 - name: Install required packages
   apt:
@@ -43,6 +49,7 @@
     section: ''
     option: 'WEB_BACKEND'
     value: "'php7.0-fpm'"
+    no_extra_spaces: yes
 
 # Set to listen on PHP7.0
 - name: Set to listen on PHP7.0
