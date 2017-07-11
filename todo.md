@@ -1,0 +1,11 @@
+- Thinking of adding two factor for SSH, but wondering if that might impact my auto deployment scripts (https://www.digitalocean.com/community/tutorials/how-to-set-up-multi-factor-authentication-for-ssh-on-ubuntu-16-04)
+- Database Maria DB - key-based login for backup scripts
+- Blocking Brute Force wp-login.php attempts, need the config files from https://en-ca.wordpress.org/plugins/wp-fail2ban-redux/ deployed on the server.
+- Check fail2ban is installed.
+- [DONE] Firewall - use the VestaCP one which uses IPTables
+- Never send any mail through PHP Mail or Exim. Consider hooking in https://www.mailgun.com/ at mail server level.
+- Update / check the nginx config based on: https://deliciousbrains.com/hosting-wordpress-yourself-nginx-php-mysql/ for worker processes etc.
+- Nginx Page caching: https://deliciousbrains.com/hosting-wordpress-yourself-server-monitoring-caching/, but not Redis
+- Some interesting information at: https://deliciousbrains.com/hosting-wordpress-setup-secure-virtual-server/
+- Potential useful security feature:
+https://dannyvankooten.com/periodically-check-wp-core-file-modifications/ via email though, not push bullet.
