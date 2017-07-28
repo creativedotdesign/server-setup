@@ -5,3 +5,10 @@
     state: absent
     autoremove: yes
   with_items: "{{ redundant_packages }}"
+
+- name: Add admin users
+  user:
+    name: "{{ item }}"
+    with_items: "{{ users }}"
+
+

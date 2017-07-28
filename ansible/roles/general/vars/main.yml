@@ -3,3 +3,7 @@ redundant_packages:
   - "exim4*"
   - "bind9*"
   - "postfix*"
+
+users:
+  - "daniel"
+  - "john"
