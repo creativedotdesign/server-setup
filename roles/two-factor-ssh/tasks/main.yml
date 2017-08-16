@@ -1,0 +1,37 @@
+- name: Add repository
+  apt:
+    name: "libpam-google-authenticator"
+    state: present
+    update_cache: yes
+
+- name: Create GA keys
+  shell: google-authenticator --force --time-based --disallow-reuse --rate-limit=3 --rate-time=30 --window-size=10
+  args:
+    creates: '/root/.google_authenticator'
+
+- name: Add GA PAM to SSH PAM file
+  lineinfile:
+    path: '/etc/pam.d/sshd'
+    line: 'auth required pam_google_authenticator.so nullok'
+
+- name: Enable ChallengeResponse authentication
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    regexp: '^ChallengeResponseAuthentication'
+    line: 'ChallengeResponseAuthentication yes'
+    
+- name: Add GA PAM to SSH PAM file
+  lineinfile:
+    path: '/etc/ssh/sshd_config'
+    line: 'AuthenticationMethods publickey,password publickey,keyboard-interactive'
+
+- name: 
+  lineinfile:
+    path: '/etc/pam.d/sshd'
+    regexp: '@include common-auth'
+    state: 'absent'
+
+- name: Restart SSHD
+  service:
+    name: 'sshd'
+    state: 'restarted'

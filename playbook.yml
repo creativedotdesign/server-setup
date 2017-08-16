@@ -16,3 +16,4 @@
     - replace-php
     - recompile-nginx
     - wp-fail2ban
+    # - two-factor-ssh
