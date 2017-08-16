@@ -9,6 +9,6 @@
 - name: Add admin users
   user:
     name: "{{ item }}"
-    with_items: "{{ users }}"
+  with_items: "{{ users }}"
 
 
