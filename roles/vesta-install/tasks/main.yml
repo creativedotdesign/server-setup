@@ -6,7 +6,7 @@
 - name: Run the Vesta installer
   shell: >
     yes | bash /tmp/vst-install.sh --nginx yes --apache no --phpfpm yes 
-    --vsftpd no --proftpd no --exim no --dovecot no --spamassassin no
+    --vsftpd no --proftpd no --exim yes --dovecot no --spamassassin no
     --clamav no --named no --iptables yes --fail2ban yes --mysql yes
     --postgresql no --remi no --quota no
     --hostname {{ inventory_hostname }}

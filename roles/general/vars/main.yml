@@ -1,9 +1,12 @@
 # General redundant packages for removal prior to adding any other roles
 redundant_packages:
-  - "exim4*"
   - "bind9*"
   - "postfix*"
 
 users:
   - "daniel"
   - "john"
+
+eximsettings:
+  - {question: "dc_smarthost", value: "smtp.mailgun.org:587"}
+  - {question: "dc_eximconfig_configtype", value: "smarthost"}

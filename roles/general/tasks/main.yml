@@ -11,4 +11,29 @@
     name: "{{ item }}"
   with_items: "{{ users }}"
 
+- name: Reconfigure exim4 (set defaults)
+  lineinfile:
+    path: /etc/exim4/update-exim4.conf.conf 
+    regexp: "^{{ item.question }}="
+    value: "{{ item.question }}='{{ item.value }}'"
+  with_items: "{{ eximsettings }}"
 
+- name: Reconfigure exim4 (apply)
+  command: '/usr/sbin/dpkg-reconfigure -f noninteractive exim4-config'
+
+- name: Store MailGun password
+  copy:
+    src: /vagrant/.secrets/mailgun_smtp
+    dest: /etc/exim4/passwd.client
+    force: 'yes'
+
+- name: Restart exim4
+  service:
+    name: exim4
+    state: restarted
+
+- name: Send test mail
+  mail:
+    to: john@jsmcnair.com
+    from: test@jsmcnair.com
+    subject: "MailGun test"

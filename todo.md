@@ -3,7 +3,7 @@
 - Blocking Brute Force wp-login.php attempts, need the config files from https://en-ca.wordpress.org/plugins/wp-fail2ban-redux/ deployed on the server.
 - [DONE] Check fail2ban is installed.
 - [DONE] Firewall - use the VestaCP one which uses IPTables
-- Never send any mail through PHP Mail or Exim. Consider hooking in https://www.mailgun.com/ at mail server level.
+- [DONE] Never send any mail through PHP Mail or Exim. Consider hooking in https://www.mailgun.com/ at mail server level.
 - Update / check the nginx config based on: https://deliciousbrains.com/hosting-wordpress-yourself-nginx-php-mysql/ for worker processes etc.
 - [DONE] Nginx Page caching: https://deliciousbrains.com/hosting-wordpress-yourself-server-monitoring-caching/, but not Redis
 - Some interesting information at: https://deliciousbrains.com/hosting-wordpress-setup-secure-virtual-server/
