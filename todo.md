@@ -5,7 +5,7 @@
 - [DONE] Firewall - use the VestaCP one which uses IPTables
 - Never send any mail through PHP Mail or Exim. Consider hooking in https://www.mailgun.com/ at mail server level.
 - Update / check the nginx config based on: https://deliciousbrains.com/hosting-wordpress-yourself-nginx-php-mysql/ for worker processes etc.
-- Nginx Page caching: https://deliciousbrains.com/hosting-wordpress-yourself-server-monitoring-caching/, but not Redis
+- [DONE] Nginx Page caching: https://deliciousbrains.com/hosting-wordpress-yourself-server-monitoring-caching/, but not Redis
 - Some interesting information at: https://deliciousbrains.com/hosting-wordpress-setup-secure-virtual-server/
 - Potential useful security feature:
 https://dannyvankooten.com/periodically-check-wp-core-file-modifications/ via email though, not push bullet.

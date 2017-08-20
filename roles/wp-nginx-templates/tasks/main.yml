@@ -1,0 +1,4 @@
+- name: Copy Wordpress NginX templates to the correct folder
+  copy:
+    src: /vagrant/lib/wp-nginx-cache-templates/
+    dest: /usr/local/vesta/data/templates/web/nginx/php7.0-fpm/
