@@ -2,6 +2,7 @@
   copy:
     src: /vagrant/lib/wp-fail2ban-redux/config/filters/
     dest: /etc/fail2ban/filter.d/
+    
 - name: Restart fail2ban service
   service:
     name: fail2ban
