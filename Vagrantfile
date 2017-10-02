@@ -1,81 +1,91 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
+  ### GENERAL SETTINGS ###
+  # Box to use by default for all machines
   config.vm.box = "debian/jessie64"
+  # Additional folders to sync into the boxes
+  config.vm.synced_folder "~/.vagrant.d/secrets", "/secrets", 
+    type: 'rsync', 
+    rsync__auto: true,
+    id: 'secrets'
 
-  # Set the hostname
-  config.vm.hostname = "test"
-  # Run Ansible from the Vagrant VM
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "playbook.yml"
-    # ansible.verbose = true
-    ansible.install_mode = "pip"
+  # Private key path for accessing VMs
+  config.ssh.private_key_path = '~/.ssh/vagrant_key' 
+
+  ### DEVELOPMENT BOX DEFINITION ###
+  # Settings for the test (dev) machine
+  config.vm.define "test", primary: true do |test|
+    # Provision with ansible
+    test.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook.yml"
+      ansible.verbose = true
+      ansible.install_mode = "pip"
+    end
   end
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
+  ### PRODUCTION FRONT-END BOX DEFINITION ###
+  # Settings for the test (dev) machine
+  config.vm.define "prod-fe.creativedot.com" do |web|
+    # Set the provider specific settings for this box
+    web.vm.provider :linode do |provider, override|
+      provider.label = 'production-frontend'
+    end
+    # Provision with ansible
+    web.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook_frontend.yml"
+      # ansible.verbose = true
+      ansible.install_mode = "pip"
+    end
+  end
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  ### PRODUCTION DATABASE BOX DEFINITION ###
+  # Settings for the test (dev) machine
+  config.vm.define "prod-db.creativedot.com" do |db|
+    # Set the provider specific settings for this box
+    db.vm.provider :linode do |provider, override|
+      provider.label = 'production-database'
+    end
+    # Provision with ansible
+    db.vm.provision "ansible_local" do |ansible|
+      ansible.playbook = "playbook_database.yml"
+      ansible.verbose = true
+      ansible.install_mode = "pip"
+    end
+  end
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.4.10"
+  ### PROVIDER SPECIFIC SETTINGS ###
+  # Define the VirtualBox specific settings
+  config.vm.provider "virtualbox" do |vb, override|
+    override.vm.network "private_network", ip: "192.168.4.10"
+  end
 
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
+  # Define the VMWare Fusion sepcific settings
+  config.vm.provider "vmware_fusion" do |fusion, override|
+    override.vm.network "private_network", ip: "192.168.3.200"
+  end
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  config.vm.synced_folder "~/.vagrant.d/secrets", "/vagrant/.secrets", type: 'rsync'
+  # Linode provider settings
+  config.vm.provider :linode do |provider, override|
+    override.ssh.private_key_path = '~/.ssh/vagrant_key'
+    override.vm.box = 'linode'
+    override.vm.box_url = "https://github.com/displague/vagrant-linode/raw/master/box/linode.box"
+    provider.token = File.open(File.expand_path('~/.vagrant.d/linode_api_key'), 'rb') {|f| f.read }
+    provider.group = 'production'
+    provider.distribution = 'Debian 8'
+    provider.datacenter = 'fremont'
+    provider.plan = '2048'
+    provider.private_networking = true
+  end
 
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
-  # such as FTP and Heroku are also available. See the documentation at
-  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  config.vm.provider "hyperv" do |provider, override|
+    override.ssh.private_key_path = nil
+    override.vm.box = "generic/debian8"
+    override.vm.synced_folder "./", "/vagrant/", 
+      type: 'rsync', 
+      rsync__auto: true,
+      id: 'ansible'
+  end
 end

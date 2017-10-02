@@ -10,3 +10,4 @@
 - Potential useful security feature:
 https://dannyvankooten.com/periodically-check-wp-core-file-modifications/ via email though, not push bullet.
 - [DONE] Deploy to Linode using API key
+- [IN PROGRESS] Backup Vesta backups to gdrive

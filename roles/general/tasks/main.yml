@@ -1,3 +1,10 @@
+# Add any required packages
+- name: Add required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ required_packages }}"
+
 # Remove unnecessary packages. Defined in variables file under redundant_packages 
 - name: Remove unnecessary packages
   apt:
@@ -23,7 +30,7 @@
 
 - name: Store MailGun password
   copy:
-    src: /vagrant/.secrets/mailgun_smtp
+    src: /secrets/mailgun_smtp
     dest: /etc/exim4/passwd.client
     force: 'yes'
 
